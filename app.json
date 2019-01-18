@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "test2",
+    "name": "FinTaxi",
     "description": "A very interesting project.",
-    "slug": "test2",
+    "slug": "FinTaxi",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],

@@ -5,86 +5,137 @@ import {
 	ScrollView,
 	StyleSheet,
 	Text,
+	TextInput,
 	TouchableOpacity,
 	View
 } from "react-native"
 import { WebBrowser } from "expo"
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
+import { GoogleAutoComplete } from "react-native-google-autocomplete"
 
 // TODO katso toppadding täältä: https://snack.expo.io/@unafridi/react-native-google-places-autocomplete-example
 
-
 const homePlace = {
-  description: 'Home',
-  geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
-};
-const workPlace = {
-  description: 'Work',
-  geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
-};
+	description: "Home",
 
+	geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
+}
+const workPlace = {
+	description: "Work",
+	geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
+}
 
 export default class HomeScreen extends React.Component {
 	static navigationOptions = {
 		header: null
 	}
- 
+
+	// tässä on ensimmäisenä equimperin esimerkki (https://github.com/EQuimper/react-native-google-autocomplete)
 	render() {
 		return (
 			<View style={styles.container}>
 				<Text>Mistä:</Text>
- 
-        <GooglePlacesAutocomplete
-          placeholder="Search"
-          minLength={2} // minimum length of text to search
-          autoFocus={false}
-          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-          listViewDisplayed="auto" // true/false/undefined
-          fetchDetails={true}
-          renderDescription={row => row.description} // custom description render
-          onPress={(data, details = null) => {
-            console.log(data);
-            console.log(details);
-          }}
-          getDefaultValue={() => {
-            return ''; // text input default value
-          }}
-          query={{
-            // available options: https://developers.google.com/places/web-service/autocomplete
-            key: 'AIzaSyBYe8HsnNm4Kg9_O6lucSaUDjrTBl8QghI',
-            language: 'en', // language of the results
-            types: '(cities)', // default: 'geocode'
-          }}
-          styles={{
-            description: {
-              fontWeight: 'bold',
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb',
-            },
-          }}
-          currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-          currentLocationLabel="Current location"
-          nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-          GoogleReverseGeocodingQuery={{
-            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-          }}
-          GooglePlacesSearchQuery={{
-            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-            rankby: 'distance',
-            types: 'food',
-          }}
-          filterReverseGeocodingByTypes={[
-            'locality',
-            'administrative_area_level_3',
-          ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          predefinedPlaces={[homePlace, workPlace]}
-          debounce={200}
-        />
 
+				<GooglePlacesAutocomplete
+					placeholder="Lähtöpaikan osoite. Esim. torikatu 1"
+					minLength={2} // minimum length of text to search
+					autoFocus={false}
+					returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+					listViewDisplayed="auto" // true/false/undefined
+					fetchDetails={true}
+					renderDescription={row => row.description} // custom description render
+					onPress={(data, details = null) => {
+						console.log(data)
+						console.log(details)
+					}}
+					getDefaultValue={() => {
+						return "pou" // text input default value
+					}}
+					query={{
+						// available options: https://developers.google.com/places/web-service/autocomplete
+						key: "AIzaSyBlXzW_f3mZD6bOVIsP6bsHhvcICbLD2PQ",
+						language: "en", // language of the results
+						types: "(cities)" // default: 'geocode'
+					}}
+					styles={{
+						description: {
+							fontWeight: "bold"
+						},
+						predefinedPlacesDescription: {
+							color: "#1faadb"
+						}
+					}}
+					currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+					currentLocationLabel="Current location"
+					nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+					GoogleReverseGeocodingQuery={
+						{
+							// available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+						}
+					}
+					GooglePlacesSearchQuery={{
+						// available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+						rankby: "distance",
+						types: "food"
+					}}
+					filterReverseGeocodingByTypes={[
+						"locality",
+						"administrative_area_level_3"
+					]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+					predefinedPlaces={[homePlace, workPlace]}
+					debounce={200}
+				/>
 
 				<Text>Mihin:</Text>
+				<GooglePlacesAutocomplete
+					placeholder="Matkan kohde. Esim. torikatu 1"
+					minLength={2} // minimum length of text to search
+					autoFocus={false}
+					returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+					listViewDisplayed="auto" // true/false/undefined
+					fetchDetails={true}
+					renderDescription={row => row.description} // custom description render
+					onPress={(data, details = null) => {
+						console.log(data)
+						console.log(details)
+					}}
+					getDefaultValue={() => {
+						return "" // text input default value
+					}}
+					query={{
+						// available options: https://developers.google.com/places/web-service/autocomplete
+						key: "AIzaSyBlXzW_f3mZD6bOVIsP6bsHhvcICbLD2PQ",
+						language: "en", // language of the results
+						types: "(cities)" // default: 'geocode'
+					}}
+					styles={{
+						description: {
+							fontWeight: "bold"
+						},
+						predefinedPlacesDescription: {
+							color: "#1faadb"
+						}
+					}}
+					currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+					currentLocationLabel="Current location"
+					nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+					GoogleReverseGeocodingQuery={
+						{
+							// available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+						}
+					}
+					GooglePlacesSearchQuery={{
+						// available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+						rankby: "distance",
+						types: "food"
+					}}
+					filterReverseGeocodingByTypes={[
+						"locality",
+						"administrative_area_level_3"
+					]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+					predefinedPlaces={[homePlace, workPlace]}
+					debounce={200}
+				/>
 			</View>
 		)
 	}
@@ -132,8 +183,8 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-    backgroundColor: "#fff",
-    marginTop: 20
+		backgroundColor: "#fff",
+		marginTop: 20
 	},
 	developmentModeText: {
 		marginBottom: 20,
