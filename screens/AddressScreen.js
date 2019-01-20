@@ -19,9 +19,6 @@ export default class AddressScreen extends React.Component {
 	render() {
 		console.log("TULTIIN addressscreeniin. navigation.state.params")
 		console.log(this.props.navigation.state.params)
-		// TODO miksi tämä parametri ei tule perille
-        console.log("ADDRESS DEtAILS VANHA")
-        console.log(this.props.navigation.getParam("searchAddress"))
 
 		return (
 			<View style={styles.container}>

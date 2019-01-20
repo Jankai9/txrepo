@@ -17,13 +17,20 @@ const styles = {
 }
 
 class LocationItem extends React.PureComponent {
+	// create constructor to get access to props
+	constructor(props) {
+		super(props)
+	}
+
 	handlePress = async () => {
 		try {
+			// haetaan tarkemmat osoitetiedot googlelta
 			const addressDetails = await this.props.fetchDetails(
 				this.props.place_id
 			)
 			console.log("addressDetails: ", addressDetails)
 			this.props.searchAddress(addressDetails)
+			this.props.navi.goBack()
 		} catch (error) {
 			throw error
 		}
@@ -41,10 +48,15 @@ class LocationItem extends React.PureComponent {
 }
 
 export class AddressComponent extends React.Component {
+	// create constructor to get access to props
+	constructor(props) {
+		super(props)
+	}
+
 	render() {
-		console.log("FOOXXX")
+		console.log("AddressComponent: navi")
 		console.log(this.props.navi)
-		console.log("SA: ",this.props.navi.getParam("searchAddress"))
+		console.log("SA: ", this.props.navi.getParam("searchAddress"))
 		return (
 			<GoogleAutoComplete
 				apiKey="AIzaSyBlXzW_f3mZD6bOVIsP6bsHhvcICbLD2PQ"
@@ -75,6 +87,7 @@ export class AddressComponent extends React.Component {
 									{...el}
 									fetchDetails={fetchDetails}
 									key={String(i)}
+									navi={this.props.navi}
 									searchAddress={this.props.navi.getParam(
 										"searchAddress"
 									)}
@@ -88,5 +101,3 @@ export class AddressComponent extends React.Component {
 	}
 }
 
-// miksi tämä ei toimi. nyt pitää antaa navi propsina sisään
-export default withNavigation(AddressComponent)
