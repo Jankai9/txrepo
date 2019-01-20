@@ -18,11 +18,14 @@ export default class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.state = {}
+		this.state = {
+			startAddress: ""
+		}
 	}
 
 	searchAddress = value => {
 		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
+		this.setState({...this.state, startAddress:  value.formatted_address})
 	}
 
 	onItemPressed(_item) {
@@ -37,6 +40,7 @@ export default class HomeScreen extends React.Component {
 			<View>
 				<Text>Mistä:n (klikkaus vie toiselle sivulle)</Text>
 				<TextInput
+					value={this.state.startAddress}
 					style={{ height: 40 }}
 					placeholder="Lähtöpaikka"
 					onTouchStart={this.onItemPressed.bind(this, "item")}
