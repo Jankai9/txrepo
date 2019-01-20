@@ -4,6 +4,7 @@ import {
 	TextInput,
 	Text,
 	Button,
+	StyleSheet,
 	FlatList,
 	TouchableOpacity
 } from "react-native"
@@ -11,7 +12,7 @@ import {
 export default class HomeScreen extends React.Component {
 	// create the title for the screen
 	static navigationOptions = {
-		title: "Home"
+		title: "FinTaxi"
 	}
 
 	// create constructor to get access to props
@@ -38,15 +39,54 @@ export default class HomeScreen extends React.Component {
 	render() {
 		return (
 			<View>
-				<Text>Mistä:n (klikkaus vie toiselle sivulle)</Text>
 				<TextInput
 					value={this.state.startAddress}
-					style={{ height: 40 }}
-					placeholder="Lähtöpaikka"
+					style={styles.startAddress}
+					placeholder="  Lähtöpaikka"
 					onTouchStart={this.onItemPressed.bind(this, "item")}
 				/>
-				<Text>tähän kartta.</Text>
+				<Text style={styles.orderButton}>JATKA TILAAMAAN</Text>
 			</View>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: "#eee",
+		marginTop: 20
+	},
+	startAddress: {
+		backgroundColor: "#ddd",
+		marginTop: 20,
+		marginLeft: 20,
+		marginRight: 20,
+		height: 40
+	},
+	map: {
+		backgroundColor: "#ddd",
+		marginTop: 20,
+		marginLeft: 20,
+		marginRight: 20,
+	},
+	orderButton: {
+		backgroundColor: "#FFEB3B",
+		color: "#000",
+		marginTop: 20,
+		marginLeft: 20,
+		marginRight: 20,
+		height: 50,
+		fontSize: 20,
+		fontWeight: 'bold',
+		textShadowColor: '#000',
+		textShadowOffset: { width: 1, height: 1 },
+		textShadowRadius: 3,
+		textAlign: 'center',
+		borderRadius: 27 ,
+		borderWidth: 2,
+		borderColor: '#FF5722',
+		paddingTop: 7,
+
+	}
+})
