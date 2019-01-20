@@ -10,26 +10,46 @@ import {
 	TouchableOpacity,
 	View
 } from "react-native"
+import { withNavigation } from "react-navigation"
 
 const styles = {
 	root: {}
 }
+
 class LocationItem extends React.PureComponent {
-    render () {
-        return (
-            <View style={styles.root}>
-                    <Text>{this.props.description}</Text>
-            </View>
-        );
-    }
+	handlePress = async () => {
+		try {
+			const addressDetails = await this.props.fetchDetails(
+				this.props.place_id
+			)
+			console.log("addressDetails: ", addressDetails)
+			this.props.searchAddress(addressDetails)
+		} catch (error) {
+			throw error
+		}
+	}
+
+	render() {
+		return (
+			<TouchableOpacity onPress={this.handlePress}>
+				<View style={styles.root}>
+					<Text>{this.props.description}</Text>
+				</View>
+			</TouchableOpacity>
+		)
+	}
 }
 
-export default class PlaceComponent extends React.Component {
+export class AddressComponent extends React.Component {
 	render() {
+		console.log("FOOXXX")
+		console.log(this.props.navi)
+		console.log("SA: ",this.props.navi.getParam("searchAddress"))
 		return (
 			<GoogleAutoComplete
 				apiKey="AIzaSyBlXzW_f3mZD6bOVIsP6bsHhvcICbLD2PQ"
 				debounce={300}
+				components="country:fi"
 			>
 				{({
 					inputValue,
@@ -55,6 +75,9 @@ export default class PlaceComponent extends React.Component {
 									{...el}
 									fetchDetails={fetchDetails}
 									key={String(i)}
+									searchAddress={this.props.navi.getParam(
+										"searchAddress"
+									)}
 								/>
 							))}
 						</ScrollView>
@@ -64,3 +87,6 @@ export default class PlaceComponent extends React.Component {
 		)
 	}
 }
+
+// miksi tämä ei toimi. nyt pitää antaa navi propsina sisään
+export default withNavigation(AddressComponent)
