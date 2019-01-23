@@ -14,7 +14,7 @@ import { MapView, PROVIDER_GOOGLE } from "expo"
 const screen = Dimensions.get("window")
 
 const ASPECT_RATIO = screen.width / screen.height
-const LATITUDE_DELTA = 0.0050
+const LATITUDE_DELTA = 0.005
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 export default class HomeScreen extends React.Component {
@@ -41,7 +41,7 @@ export default class HomeScreen extends React.Component {
 		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
 		this.setState({ ...this.state, startAddress: value.formatted_address })
 		this.setState({ ...this.state, region: value.geometry.location })
- 
+
 		console.log(value.geometry.location)
 		console.log(this.map)
 	}
@@ -56,13 +56,13 @@ export default class HomeScreen extends React.Component {
 	render() {
 		let regionAttribute = {}
 		if (this.state.region) {
-			let region =  {
+			let region = {
 				latitude: this.state.region.lat,
 				longitude: this.state.region.lng,
 				latitudeDelta: LATITUDE_DELTA,
-				longitudeDelta: LONGITUDE_DELTA,
-			  }
-			  regionAttribute = { region  }
+				longitudeDelta: LONGITUDE_DELTA
+			}
+			regionAttribute = { region }
 		}
 
 		return (
@@ -76,8 +76,15 @@ export default class HomeScreen extends React.Component {
 						longitudeDelta: LONGITUDE_DELTA
 					}}
 					{...regionAttribute}
-				/>
- 
+				>
+					{this.state.region && (
+					<MapView.Marker
+						coordinate={{ latitude: this.state.region.lat, longitude: this.state.region.lng }}
+						anchor={{ x: 0.5, y: 0.5 }}
+						pinColor={"red"}
+					/>)}
+				</MapView>
+
 				<View style={{ flex: 1, width: "100%", position: "absolute" }}>
 					<View style={{ width: "100%", borderWidth: 0 }}>
 						<TextInput
