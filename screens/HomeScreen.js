@@ -6,9 +6,16 @@ import {
 	Button,
 	StyleSheet,
 	FlatList,
-	TouchableOpacity
+	TouchableOpacity,
+	Dimensions
 } from "react-native"
 import { MapView, PROVIDER_GOOGLE } from "expo"
+
+const screen = Dimensions.get("window")
+
+const ASPECT_RATIO = screen.width / screen.height
+const LATITUDE_DELTA = 0.0050
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 export default class HomeScreen extends React.Component {
 	// create the title for the screen
@@ -22,16 +29,21 @@ export default class HomeScreen extends React.Component {
 
 		this.state = {
 			startAddress: "",
-			location: {
-				"lat" : -33.866651,
-				"lng" : 151.195827
-			 },
+			initialRegion: {
+				lat: -33.866651,
+				lng: 151.195827
+			},
+			region: undefined
 		}
 	}
 
 	searchAddress = value => {
 		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
 		this.setState({ ...this.state, startAddress: value.formatted_address })
+		this.setState({ ...this.state, region: value.geometry.location })
+ 
+		console.log(value.geometry.location)
+		console.log(this.map)
 	}
 
 	onItemPressed(_item) {
@@ -42,18 +54,30 @@ export default class HomeScreen extends React.Component {
 	}
 
 	render() {
+		let regionAttribute = {}
+		if (this.state.region) {
+			let region =  {
+				latitude: this.state.region.lat,
+				longitude: this.state.region.lng,
+				latitudeDelta: LATITUDE_DELTA,
+				longitudeDelta: LONGITUDE_DELTA,
+			  }
+			  regionAttribute = { region  }
+		}
+
 		return (
 			<View style={styles.container}>
 				<MapView
 					style={styles.map}
 					initialRegion={{
-						latitude: 37.78825,
-						longitude: -122.4324,
-						latitudeDelta: 0.0922,
-						longitudeDelta: 0.0421
+						latitude: this.state.initialRegion.lat,
+						longitude: this.state.initialRegion.lng,
+						latitudeDelta: LATITUDE_DELTA,
+						longitudeDelta: LONGITUDE_DELTA
 					}}
+					{...regionAttribute}
 				/>
-
+ 
 				<View style={{ flex: 1, width: "100%", position: "absolute" }}>
 					<View style={{ width: "100%", borderWidth: 0 }}>
 						<TextInput
@@ -63,7 +87,7 @@ export default class HomeScreen extends React.Component {
 							onTouchStart={this.onItemPressed.bind(this, "item")}
 						/>
 					</View>
-						<Text style={styles.orderButton}>JATKA TILAAMAAN</Text>
+					<Text style={styles.orderButton}>JATKA TILAAMAAN</Text>
 				</View>
 			</View>
 		)
@@ -84,7 +108,7 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: "#666",
 		borderRadius: 11,
-		fontSize: 20,
+		fontSize: 20
 	},
 	map: {
 		flex: 1
