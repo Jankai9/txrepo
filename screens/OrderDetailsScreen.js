@@ -52,29 +52,50 @@ export default class OrderDetailsScreen extends React.Component {
 
 		return (
 			<View style={styles.container}>
-				<View style={{ width: "100%", borderWidth: 0 }}>
-					<View>
-						<Text style={styles.startAddressText}>Noutopaikka</Text>
+				<View style={styles.addresses}>
+					<View style={styles.addressContainer}>
+						<Text style={styles.addressText}>Noutopaikka</Text>
 						<Text
-							style={styles.startAddress}
+							style={styles.address}
 							onTouchStart={this.onStartAddressPressed.bind(this)}
 						>
 							{this.state.startAddress}
 						</Text>
 					</View>
-					<View>
-						<Text style={styles.destinationAddressText}>
-							Määränpää
-						</Text>
+					<View style={styles.addressContainer}>
+						<Text style={styles.addressText}>Määränpää</Text>
 						<Text
-							style={styles.destinationAddress}
+							style={styles.address}
 							onTouchStart={this.onDestinationAddressPressed.bind(
 								this
 							)}
 						>
 							{this.state.destinationAddress
 								? this.state.destinationAddress
-								: "Valitse määränpää (valinnainen)"}
+								: "Lisää määränpää (valinnainen)"}
+						</Text>
+					</View>
+				</View>
+				<View style={styles.optionsContainer}>
+					<View style={styles.optionContainer}>
+						<Text style={styles.optionValue}>
+							Mikä tahansa auto
+						</Text>
+						<Text style={styles.optionHint}>
+							Vaihda napauttamalla
+						</Text>
+					</View>
+					<View style={styles.optionContainer}>
+						<Text style={styles.optionValue}>Kyyti heti</Text>
+						<Text style={styles.optionHint}>
+							Aseta myöhempi aika napauttamalla
+						</Text>
+					</View>
+
+					<View style={styles.optionContainer}>
+						<Text style={styles.optionValue}>Maksu autossa</Text>
+						<Text style={styles.optionHint}>
+							Voit maksaa myös pankkikortilla napauttamalla tätä
 						</Text>
 					</View>
 				</View>
@@ -83,40 +104,55 @@ export default class OrderDetailsScreen extends React.Component {
 	}
 }
 
+// https://facebook.github.io/react-native/docs/view-style-props
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#ccc",
+		backgroundColor: "#eee",
 		marginTop: 20
 	},
-	startAddress: {
+	addresses: {
+		marginTop: 10
+	},
+	addressContainer: {
 		backgroundColor: "#fff",
 		marginTop: 10,
-		marginLeft: 20,
+		marginLeft: 20
+	},
+	address: {
+		backgroundColor: "#fff",
+		paddingTop: 4,
 		marginRight: 20,
 		paddingLeft: 10,
-		height: 40,
-		borderWidth: 2,
-		borderColor: "#666",
-		fontSize: 20
+		paddingBottom: 3,
+		height: 25,
+		fontSize: 10,
+		fontWeight: "bold"
 	},
-	startAddressText: {
-		fontSize: 10
-	},
-	destinationAddress: {
-		backgroundColor: "#fff",
-		marginTop: 10,
-		backgroundColor: "#fff",
-		marginTop: 10,
-		marginLeft: 20,
-		marginRight: 20,
+	addressText: {
 		paddingLeft: 10,
-		height: 40,
-		borderWidth: 2,
-		borderColor: "#666",
-		fontSize: 20
+		paddingTop: 3,
+		fontSize: 10,
+		color: "#aaa"
 	},
-	destinationAddressText: {
-		fontSize: 10
+	optionsContainer: {
+		marginTop: 20,
+		marginLeft: 20
+	},
+	optionContainer: {
+		marginTop: 20,
+		borderBottomWidth: 1,
+		borderBottomColor: "#aaa"
+	},
+	optionValue: {
+		fontSize: 15,
+		fontWeight: "bold"
+	},
+	optionHint: {
+		marginTop: 3,
+		paddingBottom: 3,
+		fontSize: 13,
+		color: "#aaa"
 	}
 })
