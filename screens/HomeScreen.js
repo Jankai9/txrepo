@@ -53,6 +53,13 @@ export default class HomeScreen extends React.Component {
 		})
 	}
 
+	onContinueToOrderPressed() {
+		this.props.navigation.navigate("OrderDetails", {
+			startAddress: this.state.startAddress,
+			startLocation: this.state.region
+		})
+	}
+
 	render() {
 		let regionAttribute = {}
 		if (this.state.region) {
@@ -78,11 +85,15 @@ export default class HomeScreen extends React.Component {
 					{...regionAttribute}
 				>
 					{this.state.region && (
-					<MapView.Marker
-						coordinate={{ latitude: this.state.region.lat, longitude: this.state.region.lng }}
-						anchor={{ x: 0.5, y: 0.5 }}
-						pinColor={"red"}
-					/>)}
+						<MapView.Marker
+							coordinate={{
+								latitude: this.state.region.lat,
+								longitude: this.state.region.lng
+							}}
+							anchor={{ x: 0.5, y: 0.5 }}
+							pinColor={"red"}
+						/>
+					)}
 				</MapView>
 
 				<View style={{ flex: 1, width: "100%", position: "absolute" }}>
@@ -94,7 +105,16 @@ export default class HomeScreen extends React.Component {
 							onTouchStart={this.onItemPressed.bind(this, "item")}
 						/>
 					</View>
-					<Text style={styles.orderButton}>JATKA TILAAMAAN</Text>
+					{this.state.region && (
+						<Text
+							style={styles.orderButton}
+							onTouchStart={this.onContinueToOrderPressed.bind(
+								this
+							)}
+						>
+							JATKA TILAAMAAN
+						</Text>
+					)}
 				</View>
 			</View>
 		)
