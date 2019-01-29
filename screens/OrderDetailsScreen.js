@@ -1,5 +1,6 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View, Image } from "react-native"
+import { Icon } from "react-native-elements"
 
 export default class OrderDetailsScreen extends React.Component {
 	// create constructor to get access to props
@@ -77,26 +78,59 @@ export default class OrderDetailsScreen extends React.Component {
 					</View>
 				</View>
 				<View style={styles.optionsContainer}>
-					<View style={styles.optionContainer}>
-						<Text style={styles.optionValue}>
-							Mikä tahansa auto
-						</Text>
-						<Text style={styles.optionHint}>
-							Vaihda napauttamalla
-						</Text>
+					<View style={styles.optionBoxContainer}>
+						<Icon
+							name="truck"
+							type="feather"
+							color="#517fa4"
+							size={30}
+						/>
+						<View style={styles.optionValueAndHintContainer}>
+							<Text style={styles.optionValue}>
+								Mikä tahansa auto
+							</Text>
+							<Text style={styles.optionHint}>
+								Vaihda autotyyppi napauttamalla
+							</Text>
+						</View>
 					</View>
 					<View style={styles.optionContainer}>
-						<Text style={styles.optionValue}>Kyyti heti</Text>
-						<Text style={styles.optionHint}>
-							Aseta myöhempi aika napauttamalla
-						</Text>
+						<View style={styles.optionBoxContainer}>
+							<Icon
+								name="clock"
+								type="feather"
+								color="#517fa4"
+								size={30}
+							/>
+							<View style={styles.optionValueAndHintContainer}>
+								<Text style={styles.optionValue}>
+									Kyyti heti
+								</Text>
+								<Text style={styles.optionHint}>
+									Aseta myöhempi aika napauttamalla
+								</Text>
+							</View>
+						</View>
 					</View>
 
 					<View style={styles.optionContainer}>
-						<Text style={styles.optionValue}>Maksu autossa</Text>
-						<Text style={styles.optionHint}>
-							Voit maksaa myös pankkikortilla napauttamalla tätä
-						</Text>
+						<View style={styles.optionBoxContainer}>
+							<Icon
+								name="dollar-sign"
+								type="feather"
+								color="#517fa4"
+								size={30}
+							/>
+							<View style={styles.optionValueAndHintContainer}>
+								<Text style={styles.optionValue}>
+									Maksu autossa
+								</Text>
+								<Text style={styles.optionHint}>
+									Voit maksaa myös pankkikortilla
+									napauttamalla tätä
+								</Text>
+							</View>
+						</View>
 					</View>
 				</View>
 			</View>
@@ -145,6 +179,10 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: "#aaa"
 	},
+	optionImage: {
+		width: 50,
+		height: 60
+	},
 	optionValue: {
 		fontSize: 15,
 		fontWeight: "bold"
@@ -154,5 +192,12 @@ const styles = StyleSheet.create({
 		paddingBottom: 3,
 		fontSize: 13,
 		color: "#aaa"
+	},
+	optionBoxContainer: {
+		flex: 0,
+		flexDirection: "row"
+	},
+	optionValueAndHintContainer: {
+		marginLeft: 15
 	}
 })
