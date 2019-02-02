@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
 		color: "#aaa"
 	},
 	optionsContainer: {
-		marginTop: 20,
+		marginTop: 30,
 		marginLeft: 20
 	},
 	optionContainer: {
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
 		marginLeft: 20,
 		marginRight: 20,
 		height: 50,
-		fontSize: 15,
+		fontSize: 13,
 		fontWeight: "bold",
 		textAlign: "center"
 	},

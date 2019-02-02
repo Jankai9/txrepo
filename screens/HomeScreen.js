@@ -159,23 +159,5 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		fontWeight: "bold",
 		fontSize: 20
-	},
-	orderButton2: {
-		backgroundColor: "#FFEB3B",
-		marginTop: "99%",
-		marginLeft: 20,
-		marginRight: 20,
-		height: 50,
-		borderRadius: 27,
-		borderWidth: 2,
-		borderColor: "#FF5722"
-	},
-
-	orderButtonText2: {
-		color: "#000",
-		fontSize: 20,
-		fontWeight: "bold",
-		textAlign: "center",
-		paddingTop: 7
 	}
 })

@@ -12,10 +12,6 @@ import {
 } from "react-native"
 import { withNavigation } from "react-navigation"
 
-const styles = {
-	root: {}
-}
-
 class LocationItem extends React.PureComponent {
 	// create constructor to get access to props
 	constructor(props) {
@@ -39,8 +35,10 @@ class LocationItem extends React.PureComponent {
 	render() {
 		return (
 			<TouchableOpacity onPress={this.handlePress}>
-				<View style={styles.root}>
-					<Text>{this.props.description}</Text>
+				<View style={styles.addressItemContainer}>
+					<Text style={styles.addressItem}>
+						{this.props.description}
+					</Text>
 				</View>
 			</TouchableOpacity>
 		)
@@ -71,33 +69,64 @@ export class AddressComponent extends React.Component {
 				}) => (
 					<React.Fragment>
 						<TextInput
-							style={{
-								height: 40,
-								width: 300,
-								borderWidth: 1,
-								paddingHorizontal: 16
-							}}
+							style={styles.addressInput}
 							value={inputValue}
 							onChangeText={handleTextChange}
 							placeholder="Location..."
 						/>
-						<ScrollView style={{ maxHeight: 100 }}>
-							{locationResults.map((el, i) => (
-								<LocationItem
-									{...el}
-									fetchDetails={fetchDetails}
-									key={String(i)}
-									navi={this.props.navi}
-									searchAddress={this.props.navi.getParam(
-										"searchAddress"
-									)}
-								/>
-							))}
-						</ScrollView>
+						<View style={styles.addressList}>
+							<ScrollView style={{}}>
+								{locationResults.map((el, i) => (
+									<LocationItem
+										{...el}
+										fetchDetails={fetchDetails}
+										key={String(i)}
+										navi={this.props.navi}
+										searchAddress={this.props.navi.getParam(
+											"searchAddress"
+										)}
+									/>
+								))}
+							</ScrollView>
+						</View>
 					</React.Fragment>
 				)}
 			</GoogleAutoComplete>
 		)
 	}
 }
+const styles = StyleSheet.create({
+	root: {},
 
+	addressInput: {
+		color: "black",
+		borderLeftWidth: 0,
+		borderRightWidth: 0,
+		borderTopWidth: 0,
+		borderBottomWidth: 1,
+		borderBottomColor: "#444",
+		marginLeft: 20,
+		marginRight: 20,
+		borderWidth: 1,
+		height: 40,
+		fontSize: 20,
+		fontWeight: "bold"
+	},
+	addressList: {
+		marginLeft: 20,
+		marginRight: 20,
+		height: 400
+	},
+	addressItem: {
+		color: "black",
+		marginLeft: 10,
+		marginRight: 10,
+		marginBottom: 5,
+		fontSize: 15
+	},
+	addressItemContainer: {
+		borderBottomWidth: 1,
+		borderBottomColor: "#444",
+		marginTop: 5
+	}
+})
