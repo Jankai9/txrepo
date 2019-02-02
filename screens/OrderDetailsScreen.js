@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, Text, View, Image } from "react-native"
+import { TouchableHighlight, StyleSheet, Text, View, Image } from "react-native"
 import { Icon } from "react-native-elements"
 
 export default class OrderDetailsScreen extends React.Component {
@@ -36,6 +36,13 @@ export default class OrderDetailsScreen extends React.Component {
 		this.props.navigation.navigate("Address", {
 			address: this.state.destinationAddress,
 			addressLocation: this.state.destinationLocation
+		})
+	}
+
+	onConfirmPressed() {
+		this.props.navigation.navigate("OrderDetails", {
+			//startAddress: this.state.startAddress,
+			//startLocation: this.state.region
 		})
 	}
 
@@ -133,6 +140,15 @@ export default class OrderDetailsScreen extends React.Component {
 						</View>
 					</View>
 				</View>
+				<Text style={styles.getPrice}>Laske hinta etukäteen</Text>
+				<TouchableHighlight style={styles.confirm}>
+					<Text
+						style={styles.confirmText}
+						onTouchStart={this.onConfirmPressed.bind(this)}
+					>
+						VAHVISTA TILAUS
+					</Text>
+				</TouchableHighlight>
 			</View>
 		)
 	}
@@ -199,5 +215,32 @@ const styles = StyleSheet.create({
 	},
 	optionValueAndHintContainer: {
 		marginLeft: 15
+	},
+	getPrice: {
+		paddingTop: 20,
+		color: "gray",
+		marginLeft: 20,
+		marginRight: 20,
+		height: 50,
+		fontSize: 15,
+		fontWeight: "bold",
+		textAlign: "center"
+	},
+	confirm: {
+		backgroundColor: "#222",
+		marginTop: 20,
+		marginLeft: 20,
+		marginRight: 20,
+		height: 50,
+		borderRadius: 27,
+		borderWidth: 2,
+		paddingTop: 7
+	},
+	confirmText: {
+		color: "#FFEB3B",
+		textAlign: "center",
+		fontWeight: "bold",
+		fontSize: 15,
+		paddingTop: 4
 	}
 })

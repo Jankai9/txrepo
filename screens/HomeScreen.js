@@ -1,6 +1,7 @@
 import React from "react"
 import {
 	View,
+	TouchableHighlight,
 	TextInput,
 	Text,
 	Button,
@@ -106,14 +107,16 @@ export default class HomeScreen extends React.Component {
 						/>
 					</View>
 					{this.state.region && (
-						<Text
-							style={styles.orderButton}
-							onTouchStart={this.onContinueToOrderPressed.bind(
-								this
-							)}
-						>
-							JATKA TILAAMAAN
-						</Text>
+						<TouchableHighlight style={styles.orderButton}>
+							<Text
+								style={styles.orderButtonText}
+								onTouchStart={this.onContinueToOrderPressed.bind(
+									this
+								)}
+							>
+								JATKA TILAAMAAN
+							</Text>
+						</TouchableHighlight>
 					)}
 				</View>
 			</View>
@@ -142,17 +145,37 @@ const styles = StyleSheet.create({
 	},
 	orderButton: {
 		backgroundColor: "#FFEB3B",
+		marginTop: 320,
+		marginLeft: 20,
+		marginRight: 20,
+		height: 50,
+		borderRadius: 27,
+		borderWidth: 2,
+		borderColor: "#FF5722",
+		paddingTop: 7
+	},
+	orderButtonText: {
 		color: "#000",
+		textAlign: "center",
+		fontWeight: "bold",
+		fontSize: 20
+	},
+	orderButton2: {
+		backgroundColor: "#FFEB3B",
 		marginTop: "99%",
 		marginLeft: 20,
 		marginRight: 20,
 		height: 50,
+		borderRadius: 27,
+		borderWidth: 2,
+		borderColor: "#FF5722"
+	},
+
+	orderButtonText2: {
+		color: "#000",
 		fontSize: 20,
 		fontWeight: "bold",
 		textAlign: "center",
-		borderRadius: 27,
-		borderWidth: 2,
-		borderColor: "#FF5722",
 		paddingTop: 7
 	}
 })
