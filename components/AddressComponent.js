@@ -11,6 +11,7 @@ import {
 	View
 } from "react-native"
 import { withNavigation } from "react-navigation"
+import { Icon } from "react-native-elements"
 
 class LocationItem extends React.PureComponent {
 	// create constructor to get access to props
@@ -36,6 +37,12 @@ class LocationItem extends React.PureComponent {
 		return (
 			<TouchableOpacity onPress={this.handlePress}>
 				<View style={styles.addressItemContainer}>
+					<Icon
+						name="map-pin"
+						type="feather"
+						color="#517fa4"
+						size={23}
+					/>
 					<Text style={styles.addressItem}>
 						{this.props.description}
 					</Text>
@@ -121,12 +128,14 @@ const styles = StyleSheet.create({
 		color: "black",
 		marginLeft: 10,
 		marginRight: 10,
-		marginBottom: 5,
+		marginBottom: 6,
 		fontSize: 15
 	},
 	addressItemContainer: {
+		flex: 0,
+		flexDirection: "row",
 		borderBottomWidth: 1,
 		borderBottomColor: "#444",
-		marginTop: 5
+		marginTop: 6
 	}
 })
