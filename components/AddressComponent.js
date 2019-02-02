@@ -34,6 +34,8 @@ class LocationItem extends React.PureComponent {
 	}
 
 	render() {
+		console.log("OSOITTERIVIN TIEDOT")
+		console.log(this.props)
 		return (
 			<TouchableOpacity onPress={this.handlePress}>
 				<View style={styles.addressItemContainer}>
@@ -44,8 +46,13 @@ class LocationItem extends React.PureComponent {
 						size={23}
 					/>
 					<Text style={styles.addressItem}>
-						{this.props.description}
+						{this.props.structured_formatting.main_text}
 					</Text>
+					<View style={styles.addressSecondaryTextContainer}>
+						<Text style={styles.addressSecondaryText}>
+							{this.props.structured_formatting.secondary_text}
+						</Text>
+					</View>
 				</View>
 			</TouchableOpacity>
 		)
@@ -110,8 +117,8 @@ const styles = StyleSheet.create({
 		borderLeftWidth: 0,
 		borderRightWidth: 0,
 		borderTopWidth: 0,
-		borderBottomWidth: 1,
-		borderBottomColor: "#444",
+		borderBottomWidth: 2,
+		borderBottomColor: "#333",
 		marginLeft: 20,
 		marginRight: 20,
 		borderWidth: 1,
@@ -120,6 +127,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold"
 	},
 	addressList: {
+		marginTop: 15,
 		marginLeft: 20,
 		marginRight: 20,
 		height: 400
@@ -137,5 +145,15 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: "#444",
 		marginTop: 6
+	},
+
+	addressSecondaryText: {
+		color: "gray",
+		marginLeft: 10,
+		marginRight: 10,
+		fontSize: 10
+	},
+	addressSecondaryTextContainer: {
+		marginTop: 5
 	}
 })
