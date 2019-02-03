@@ -32,7 +32,7 @@ const AnimatedButton = posed.View({
 	visible: {
 		opacity: 1,
 		x: 0,
-		y: props => 330,
+		y: props => 370,
 		transition: {
 			x: { type: "tween" },
 			y: props => ({ type: "spring" })
