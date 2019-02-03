@@ -11,12 +11,34 @@ import {
 	Dimensions
 } from "react-native"
 import { MapView, PROVIDER_GOOGLE } from "expo"
+import posed from "react-native-pose"
+
+// tässä luuri-ympyrä-animaatio
+// https://snack.expo.io/Hyvx_zkVV
 
 const screen = Dimensions.get("window")
 
 const ASPECT_RATIO = screen.width / screen.height
 const LATITUDE_DELTA = 0.005
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+
+// ks. https://popmotion.io/pose/learn/dynamic-props/
+
+const AnimatedButton = posed.View({
+	hidden: {
+		opacity: 0.1,
+		y: props => 1000 // Resolved on `visible` enter
+	},
+	visible: {
+		opacity: 1,
+		x: 0,
+		y: props => 330,
+		transition: {
+			x: { type: "tween" },
+			y: props => ({ type: "spring" })
+		}
+	}
+})
 
 export default class HomeScreen extends React.Component {
 	// create the title for the screen
@@ -106,7 +128,10 @@ export default class HomeScreen extends React.Component {
 							onTouchStart={this.onItemPressed.bind(this, "item")}
 						/>
 					</View>
-					{this.state.region && (
+					<AnimatedButton
+						style={styles.animatedButton}
+						pose={this.state.region ? "visible" : "hidden"}
+					>
 						<TouchableHighlight style={styles.orderButton}>
 							<Text
 								style={styles.orderButtonText}
@@ -117,7 +142,7 @@ export default class HomeScreen extends React.Component {
 								JATKA TILAAMAAN
 							</Text>
 						</TouchableHighlight>
-					)}
+					</AnimatedButton>
 				</View>
 			</View>
 		)
@@ -145,19 +170,22 @@ const styles = StyleSheet.create({
 	},
 	orderButton: {
 		backgroundColor: "#FFEB3B",
-		marginTop: 320,
 		marginLeft: 20,
 		marginRight: 20,
 		height: 50,
 		borderRadius: 27,
 		borderWidth: 2,
 		borderColor: "#FF5722",
-		paddingTop: 7
+		paddingTop: 7,
+		position: "absolute"
 	},
 	orderButtonText: {
 		color: "#000",
 		textAlign: "center",
 		fontWeight: "bold",
-		fontSize: 20
-	}
+		fontSize: 20,
+		paddingLeft: 20,
+		paddingRight: 20
+	},
+	animatedButton: { position: "absolute" }
 })
