@@ -12,6 +12,9 @@ import {
 } from "react-native"
 import { MapView, PROVIDER_GOOGLE } from "expo"
 import posed from "react-native-pose"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { setLocationAndAddress } from "../OrderActions"
 
 // tässä luuri-ympyrä-animaatio
 // https://snack.expo.io/Hyvx_zkVV
@@ -40,10 +43,10 @@ const AnimatedButton = posed.View({
 	}
 })
 
-export default class HomeScreen extends React.Component {
+export class HomeScreen extends React.Component {
 	// create the title for the screen
 	static navigationOptions = {
-		title: "FinTaxi"
+		title: "Title"
 	}
 
 	// create constructor to get access to props
@@ -64,6 +67,10 @@ export default class HomeScreen extends React.Component {
 		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
 		this.setState({ ...this.state, startAddress: value.formatted_address })
 		this.setState({ ...this.state, region: value.geometry.location })
+		this.props.setLocationAndAddress({
+			startAddress: value.formatted_address,
+			startLocation: value.geometry.location
+		})
 
 		console.log(value.geometry.location)
 		console.log(this.map)
@@ -84,6 +91,9 @@ export default class HomeScreen extends React.Component {
 	}
 
 	render() {
+		console.log("PROPS FROM DREDUX")
+		console.log(this.props.order)
+
 		let regionAttribute = {}
 		if (this.state.region) {
 			let region = {
@@ -148,6 +158,27 @@ export default class HomeScreen extends React.Component {
 		)
 	}
 }
+
+const mapStateToProps = state => {
+	const { order } = state
+	x = { order }
+	console.log("MapStateToProps palauttaa: ")
+	console.log(x)
+	return x
+}
+
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			setLocationAndAddress
+		},
+		dispatch
+	)
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HomeScreen)
 
 const styles = StyleSheet.create({
 	container: {
