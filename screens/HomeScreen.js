@@ -14,8 +14,7 @@ import { MapView, PROVIDER_GOOGLE } from "expo"
 import posed from "react-native-pose"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { setLocationAndAddress } from "../OrderActions"
-import SocketIOClient from "react-native-socket.io-client"
+import { setLocationAndAddressAction } from "../OrderActions"
 
 // tässä luuri-ympyrä-animaatio
 // https://snack.expo.io/Hyvx_zkVV
@@ -64,7 +63,7 @@ export class HomeScreen extends React.Component {
 		}
 	}
 
-	searchAddress = value => {
+	setNewSearchAddress = value => {
 		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
 		this.setState({ ...this.state, startAddress: value.formatted_address })
 		this.setState({ ...this.state, region: value.geometry.location })
@@ -77,10 +76,10 @@ export class HomeScreen extends React.Component {
 		console.log(this.map)
 	}
 
-	onItemPressed(_item) {
+	onStartAddressPressed(_item) {
 		console.log(_item)
 		this.props.navigation.navigate("Address", {
-			searchAddress: this.searchAddress
+			searchAddress: this.setNewSearchAddress
 		})
 	}
 
@@ -137,7 +136,10 @@ export class HomeScreen extends React.Component {
 							style={styles.startAddress}
 							value={this.state.startAddress}
 							placeholder="  Lähtöpaikka"
-							onTouchStart={this.onItemPressed.bind(this, "item")}
+							onTouchStart={this.onStartAddressPressed.bind(
+								this,
+								"item"
+							)}
 						/>
 					</View>
 					<AnimatedButton
@@ -172,7 +174,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
-			setLocationAndAddress
+			setLocationAndAddress: setLocationAndAddressAction
 		},
 		dispatch
 	)

@@ -1,8 +1,12 @@
 import React from "react"
 import { TouchableHighlight, StyleSheet, Text, View, Image } from "react-native"
 import { Icon } from "react-native-elements"
+import { connect } from "react-redux"
+import { setOptionsAction } from "../OrderActions"
+import { bindActionCreators } from "redux"
+import { setLocationAndAddressAction } from "../OrderActions"
 
-export default class OrderDetailsScreen extends React.Component {
+export class OrderDetailsScreen extends React.Component {
 	// create constructor to get access to props
 	constructor(props) {
 		super(props)
@@ -18,7 +22,6 @@ export default class OrderDetailsScreen extends React.Component {
 
 		console.log("ORDERDETAISCREEN state:")
 		console.log(this.state)
-		console.log(this.state.startAddress)
 	}
 
 	static navigationOptions = {
@@ -27,22 +30,34 @@ export default class OrderDetailsScreen extends React.Component {
 
 	onStartAddressPressed() {
 		this.props.navigation.navigate("Address", {
+			// TODO tarviiko näitä antaa?
 			address: this.state.startAddress,
-			addressLocation: this.state.startLocation
+			addressLocation: this.state.startLocation,
+			searchAddress: value => {
+				this.props.setOptions({
+					startAddress: value.formatted_address,
+					startLocation: value.geometry.location
+				})
+			}
 		})
 	}
 
 	onDestinationAddressPressed() {
 		this.props.navigation.navigate("Address", {
 			address: this.state.destinationAddress,
-			addressLocation: this.state.destinationLocation
+			addressLocation: this.state.destinationLocation,
+			searchAddress: value => {
+				this.props.setOptions({
+					destinationAddress: value.formatted_address,
+					destinationLocation: value.geometry.location
+				})
+			}
 		})
 	}
 
 	onConfirmPressed() {
-		this.props.navigation.navigate("OrderDetails", {
-			//startAddress: this.state.startAddress,
-			//startLocation: this.state.region
+		this.props.setOptions({
+			picktime: "10:10"
 		})
 	}
 
@@ -58,6 +73,11 @@ export default class OrderDetailsScreen extends React.Component {
 		console.log("ORDER DETAILS SCREEN. navigation.state.params")
 		console.log(this.props.navigation.state.params)
 
+		let picktimeText =
+			this.props.order.picktime == "asap"
+				? "Kyyti heti"
+				: this.props.order.picktime
+
 		return (
 			<View style={styles.container}>
 				<View style={styles.addresses}>
@@ -67,7 +87,7 @@ export default class OrderDetailsScreen extends React.Component {
 							style={styles.address}
 							onTouchStart={this.onStartAddressPressed.bind(this)}
 						>
-							{this.state.startAddress}
+							{this.props.order.startAddress}
 						</Text>
 					</View>
 					<View style={styles.addressContainer}>
@@ -78,8 +98,8 @@ export default class OrderDetailsScreen extends React.Component {
 								this
 							)}
 						>
-							{this.state.destinationAddress
-								? this.state.destinationAddress
+							{this.props.order.destinationAddress
+								? this.props.order.destinationAddress
 								: "Lisää määränpää (valinnainen)"}
 						</Text>
 					</View>
@@ -111,7 +131,7 @@ export default class OrderDetailsScreen extends React.Component {
 							/>
 							<View style={styles.optionValueAndHintContainer}>
 								<Text style={styles.optionValue}>
-									Kyyti heti
+									{picktimeText}
 								</Text>
 								<Text style={styles.optionHint}>
 									Aseta myöhempi aika napauttamalla
@@ -153,6 +173,30 @@ export default class OrderDetailsScreen extends React.Component {
 		)
 	}
 }
+
+const mapStateToProps = state => {
+	const { order } = state
+	x = { order }
+	console.log("OrderDetailsScreen: MapStateToProps palauttaa orderin: ")
+	console.log(x)
+	return {
+		order: state.order
+	}
+}
+
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			setOptions: setOptionsAction,
+			setLocationAndAddress: setLocationAndAddressAction
+		},
+		dispatch
+	)
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(OrderDetailsScreen)
 
 // https://facebook.github.io/react-native/docs/view-style-props
 
