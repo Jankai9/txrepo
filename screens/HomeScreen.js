@@ -15,6 +15,7 @@ import posed from "react-native-pose"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { setLocationAndAddress } from "../OrderActions"
+import SocketIOClient from "react-native-socket.io-client"
 
 // tässä luuri-ympyrä-animaatio
 // https://snack.expo.io/Hyvx_zkVV
@@ -91,7 +92,7 @@ export class HomeScreen extends React.Component {
 	}
 
 	render() {
-		console.log("PROPS FROM DREDUX")
+		console.log("PROPS FROM DEDUX")
 		console.log(this.props.order)
 
 		let regionAttribute = {}
@@ -100,6 +101,7 @@ export class HomeScreen extends React.Component {
 				latitude: this.state.region.lat,
 				longitude: this.state.region.lng,
 				latitudeDelta: LATITUDE_DELTA,
+
 				longitudeDelta: LONGITUDE_DELTA
 			}
 			regionAttribute = { region }
