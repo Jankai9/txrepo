@@ -15,6 +15,7 @@ import posed from "react-native-pose"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { setLocationAndAddressAction } from "../OrderActions"
+import { Constants, Location, Permissions } from "expo"
 
 // tässä luuri-ympyrä-animaatio
 // https://snack.expo.io/Hyvx_zkVV
@@ -84,19 +85,42 @@ export class HomeScreen extends React.Component {
 		this.props.navigation.navigate("OrderDetails")
 	}
 
+	getLocationAsync = async () => {
+		let { status } = await Permissions.askAsync(Permissions.LOCATION)
+		if (status !== "granted") {
+			console.log({
+				errorMessage: "Permission to access location was denied"
+			})
+			return
+		}
+		console.log("haetaan sijaintia...")
+		const location = (await Location.getCurrentPositionAsync({})).coords
+		console.log("GPS location and address")
+		console.log(location)
+		const address = (await Location.reverseGeocodeAsync(location))[0]
+		console.log(address)
+		this.props.setLocationAndAddress({
+			startAddress: address.name + ", " + address.city,
+			startLocation: {
+				lng: location.longitude,
+				lat: location.latitude
+			}
+		})
+	}
+
 	render() {
-		console.log("PROPS FROM DEDUX")
+		console.log("PROPS FROM REDUX")
 		console.log(this.props.order)
 
-		let regionAttribute = {}
+		let regionAttributes = {}
 		if (this.props.order.startLocation) {
 			let region = {
-				latitude: this.state.region.lat,
-				longitude: this.state.region.lng,
+				latitude: this.props.order.startLocation.lat,
+				longitude: this.props.order.startLocation.lng,
 				latitudeDelta: LATITUDE_DELTA,
 				longitudeDelta: LONGITUDE_DELTA
 			}
-			regionAttribute = { region }
+			regionAttributes = { region }
 		}
 
 		return (
@@ -109,13 +133,13 @@ export class HomeScreen extends React.Component {
 						latitudeDelta: LATITUDE_DELTA,
 						longitudeDelta: LONGITUDE_DELTA
 					}}
-					{...regionAttribute}
+					{...regionAttributes}
 				>
-					{this.state.region && (
+					{this.props.order.startLocation && (
 						<MapView.Marker
 							coordinate={{
-								latitude: this.state.region.lat,
-								longitude: this.state.region.lng
+								latitude: this.props.order.startLocation.lat,
+								longitude: this.props.order.startLocation.lng
 							}}
 							anchor={{ x: 0.5, y: 0.5 }}
 							pinColor={"red"}
@@ -137,7 +161,11 @@ export class HomeScreen extends React.Component {
 					</View>
 					<AnimatedButton
 						style={styles.animatedButton}
-						pose={this.state.region ? "visible" : "hidden"}
+						pose={
+							this.props.order.startLocation
+								? "visible"
+								: "hidden"
+						}
 					>
 						<TouchableHighlight style={styles.orderButton}>
 							<Text
@@ -157,11 +185,7 @@ export class HomeScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-	const { order } = state
-	x = { order }
-	console.log("MapStateToProps palauttaa: ")
-	console.log(x)
-	return x
+	return { order: state.order }
 }
 
 const mapDispatchToProps = dispatch =>
