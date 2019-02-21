@@ -12,6 +12,7 @@ export class CarSelectionScreen extends React.Component {
 		super(props)
 	}
 
+	// TODO tarvitaanko tätä?
 	static navigationOptions = {
 		header: null
 	}
@@ -28,7 +29,7 @@ export class CarSelectionScreen extends React.Component {
 						style={styles.confirmText}
 						onTouchStart={this.onConfirmPressed.bind(this)}
 					>
-						VAHVISTA TILAUS
+						OK
 					</Text>
 				</TouchableHighlight>
 			</View>
@@ -37,10 +38,6 @@ export class CarSelectionScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-	const { order } = state
-	x = { order }
-	console.log("CarSelectionScreen: MapStateToProps palauttaa orderin: ")
-	console.log(x)
 	return {
 		order: state.order
 	}
@@ -49,8 +46,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
-			setOptions: setOptionsAction,
-			setLocationAndAddress: setLocationAndAddressAction
+			setOptions: setOptionsAction
 		},
 		dispatch
 	)
@@ -68,14 +64,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "#eee",
 		marginTop: 20
 	},
-	addresses: {
-		marginTop: 10
-	},
-	addressContainer: {
-		backgroundColor: "#fff",
-		marginTop: 10,
-		marginLeft: 20
-	},
 	address: {
 		backgroundColor: "#fff",
 		paddingTop: 4,
@@ -85,68 +73,5 @@ const styles = StyleSheet.create({
 		height: 25,
 		fontSize: 10,
 		fontWeight: "bold"
-	},
-	addressText: {
-		paddingLeft: 10,
-		paddingTop: 3,
-		fontSize: 10,
-		color: "#aaa"
-	},
-	optionsContainer: {
-		marginTop: 30,
-		marginLeft: 20
-	},
-	optionContainer: {
-		marginTop: 20,
-		borderBottomWidth: 1,
-		borderBottomColor: "#aaa"
-	},
-	optionImage: {
-		width: 50,
-		height: 60
-	},
-	optionValue: {
-		fontSize: 15,
-		fontWeight: "bold"
-	},
-	optionHint: {
-		marginTop: 3,
-		paddingBottom: 3,
-		fontSize: 13,
-		color: "#aaa"
-	},
-	optionBoxContainer: {
-		flex: 0,
-		flexDirection: "row"
-	},
-	optionValueAndHintContainer: {
-		marginLeft: 15
-	},
-	getPrice: {
-		paddingTop: 20,
-		color: "gray",
-		marginLeft: 20,
-		marginRight: 20,
-		height: 50,
-		fontSize: 13,
-		fontWeight: "bold",
-		textAlign: "center"
-	},
-	confirm: {
-		backgroundColor: "#222",
-		marginTop: 20,
-		marginLeft: 20,
-		marginRight: 20,
-		height: 50,
-		borderRadius: 27,
-		borderWidth: 2,
-		paddingTop: 7
-	},
-	confirmText: {
-		color: "#FFEB3B",
-		textAlign: "center",
-		fontWeight: "bold",
-		fontSize: 15,
-		paddingTop: 4
 	}
 })

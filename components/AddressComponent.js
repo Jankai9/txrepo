@@ -66,9 +66,6 @@ export class AddressComponent extends React.Component {
 	}
 
 	render() {
-		console.log("AddressComponent: navi")
-		console.log(this.props.navi)
-		console.log("SA: ", this.props.navi.getParam("addressHandler"))
 		return (
 			<GoogleAutoComplete
 				apiKey="AIzaSyBlXzW_f3mZD6bOVIsP6bsHhvcICbLD2PQ"

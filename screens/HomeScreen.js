@@ -108,6 +108,10 @@ export class HomeScreen extends React.Component {
 		})
 	}
 
+	componentWillMount() {
+		this.getLocationAsync()
+	}
+
 	render() {
 		console.log("PROPS FROM REDUX")
 		console.log(this.props.order)
