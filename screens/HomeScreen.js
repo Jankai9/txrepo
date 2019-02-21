@@ -63,31 +63,25 @@ export class HomeScreen extends React.Component {
 		}
 	}
 
-	setNewStartAddress = value => {
-		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
-		this.setState({ ...this.state, startAddress: value.formatted_address })
-		this.setState({ ...this.state, region: value.geometry.location })
-		this.props.setLocationAndAddress({
-			startAddress: value.formatted_address,
-			startLocation: value.geometry.location
-		})
-
-		console.log(value.geometry.location)
-		console.log(this.map)
-	}
-
 	onStartAddressPressed(_item) {
 		console.log(_item)
 		this.props.navigation.navigate("Address", {
-			addressHandler: this.setNewStartAddress
+			addressHandler: value => {
+				this.setState({
+					...this.state,
+					region: value.geometry.location
+				})
+
+				this.props.setLocationAndAddress({
+					startAddress: value.formatted_address,
+					startLocation: value.geometry.location
+				})
+			}
 		})
 	}
 
 	onContinueToOrderPressed() {
-		this.props.navigation.navigate("OrderDetails", {
-			startAddress: this.state.startAddress,
-			startLocation: this.state.region
-		})
+		this.props.navigation.navigate("OrderDetails")
 	}
 
 	render() {
@@ -95,12 +89,11 @@ export class HomeScreen extends React.Component {
 		console.log(this.props.order)
 
 		let regionAttribute = {}
-		if (this.state.region) {
+		if (this.props.order.startLocation) {
 			let region = {
 				latitude: this.state.region.lat,
 				longitude: this.state.region.lng,
 				latitudeDelta: LATITUDE_DELTA,
-
 				longitudeDelta: LONGITUDE_DELTA
 			}
 			regionAttribute = { region }
@@ -134,7 +127,7 @@ export class HomeScreen extends React.Component {
 					<View style={{ width: "100%", borderWidth: 0 }}>
 						<TextInput
 							style={styles.startAddress}
-							value={this.state.startAddress}
+							value={this.props.order.startAddress}
 							placeholder="  Lähtöpaikka"
 							onTouchStart={this.onStartAddressPressed.bind(
 								this,

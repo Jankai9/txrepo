@@ -11,15 +11,6 @@ export class OrderDetailsScreen extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.state = {
-			startAddress: this.props.navigation.state.startAddress,
-			startLocation: this.props.navigation.state.startLocation,
-			destinationAddress: undefined,
-			vehicleType: "any",
-			picktime: "asap",
-			payType: "vehicle"
-		}
-
 		console.log("ORDERDETAISCREEN state:")
 		console.log(this.state)
 	}
@@ -30,9 +21,6 @@ export class OrderDetailsScreen extends React.Component {
 
 	onStartAddressPressed() {
 		this.props.navigation.navigate("Address", {
-			// TODO tarviiko näitä antaa?
-			address: this.state.startAddress,
-			addressLocation: this.state.startLocation,
 			addressHandler: value => {
 				this.props.setOptions({
 					startAddress: value.formatted_address,
@@ -44,8 +32,6 @@ export class OrderDetailsScreen extends React.Component {
 
 	onDestinationAddressPressed() {
 		this.props.navigation.navigate("Address", {
-			address: this.state.destinationAddress,
-			addressLocation: this.state.destinationLocation,
 			addressHandler: value => {
 				this.props.setOptions({
 					destinationAddress: value.formatted_address,
@@ -59,14 +45,6 @@ export class OrderDetailsScreen extends React.Component {
 		this.props.setOptions({
 			picktime: "10:10"
 		})
-	}
-
-	componentDidMount() {
-		this.setState(previousState => ({
-			...previousState,
-			startAddress: this.props.navigation.state.params.startAddress,
-			startLocation: this.props.navigation.state.params.startLocation
-		}))
 	}
 
 	render() {
