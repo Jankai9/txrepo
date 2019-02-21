@@ -33,7 +33,7 @@ export class OrderDetailsScreen extends React.Component {
 			// TODO tarviiko näitä antaa?
 			address: this.state.startAddress,
 			addressLocation: this.state.startLocation,
-			searchAddress: value => {
+			addressHandler: value => {
 				this.props.setOptions({
 					startAddress: value.formatted_address,
 					startLocation: value.geometry.location
@@ -46,7 +46,7 @@ export class OrderDetailsScreen extends React.Component {
 		this.props.navigation.navigate("Address", {
 			address: this.state.destinationAddress,
 			addressLocation: this.state.destinationLocation,
-			searchAddress: value => {
+			addressHandler: value => {
 				this.props.setOptions({
 					destinationAddress: value.formatted_address,
 					destinationLocation: value.geometry.location

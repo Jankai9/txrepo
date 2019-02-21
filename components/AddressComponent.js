@@ -19,14 +19,14 @@ class LocationItem extends React.PureComponent {
 		super(props)
 	}
 
-	handlePress = async () => {
+	handleAddressPressed = async () => {
 		try {
 			// haetaan tarkemmat osoitetiedot googlelta
 			const addressDetails = await this.props.fetchDetails(
 				this.props.place_id
 			)
 			console.log("addressDetails: ", addressDetails)
-			this.props.searchAddress(addressDetails)
+			this.props.addressHandler(addressDetails)
 			this.props.navi.goBack()
 		} catch (error) {
 			throw error
@@ -37,7 +37,7 @@ class LocationItem extends React.PureComponent {
 		console.log("OSOITTERIVIN TIEDOT")
 		console.log(this.props)
 		return (
-			<TouchableOpacity onPress={this.handlePress}>
+			<TouchableOpacity onPress={this.handleAddressPressed}>
 				<View style={styles.addressItemContainer}>
 					<Icon
 						name="map-pin"
@@ -68,7 +68,7 @@ export class AddressComponent extends React.Component {
 	render() {
 		console.log("AddressComponent: navi")
 		console.log(this.props.navi)
-		console.log("SA: ", this.props.navi.getParam("searchAddress"))
+		console.log("SA: ", this.props.navi.getParam("addressHandler"))
 		return (
 			<GoogleAutoComplete
 				apiKey="AIzaSyBlXzW_f3mZD6bOVIsP6bsHhvcICbLD2PQ"
@@ -96,8 +96,8 @@ export class AddressComponent extends React.Component {
 										fetchDetails={fetchDetails}
 										key={String(i)}
 										navi={this.props.navi}
-										searchAddress={this.props.navi.getParam(
-											"searchAddress"
+										addressHandler={this.props.navi.getParam(
+											"addressHandler"
 										)}
 									/>
 								))}

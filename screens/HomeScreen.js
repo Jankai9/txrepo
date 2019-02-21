@@ -63,7 +63,7 @@ export class HomeScreen extends React.Component {
 		}
 	}
 
-	setNewSearchAddress = value => {
+	setNewStartAddress = value => {
 		console.log("HomeScreenille palautui osoite: ", value.formatted_address)
 		this.setState({ ...this.state, startAddress: value.formatted_address })
 		this.setState({ ...this.state, region: value.geometry.location })
@@ -79,7 +79,7 @@ export class HomeScreen extends React.Component {
 	onStartAddressPressed(_item) {
 		console.log(_item)
 		this.props.navigation.navigate("Address", {
-			searchAddress: this.setNewSearchAddress
+			addressHandler: this.setNewStartAddress
 		})
 	}
 
