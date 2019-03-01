@@ -4,7 +4,7 @@ import { AppLoading, Asset, Font, Icon } from "expo"
 import { AppNavigator } from "./navigation/AppNavigator"
 import { Provider } from "react-redux"
 import { createStore } from "redux"
-import orderReducer from "./OrderReducer"
+import orderReducer from "./redux/OrderReducer"
 
 const store = createStore(orderReducer)
 

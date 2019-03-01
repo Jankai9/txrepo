@@ -2,9 +2,9 @@ import React from "react"
 import { TouchableHighlight, StyleSheet, Text, View, Image } from "react-native"
 import { Icon } from "react-native-elements"
 import { connect } from "react-redux"
-import { setOptionsAction } from "../OrderActions"
+import { setOptionsAction } from "../redux/OrderActions"
 import { bindActionCreators } from "redux"
-import { setLocationAndAddressAction } from "../OrderActions"
+import { setLocationAndAddressAction } from "../redux/OrderActions"
 
 export class OrderDetailsScreen extends React.Component {
 	// create constructor to get access to props

@@ -14,7 +14,7 @@ import { MapView, PROVIDER_GOOGLE } from "expo"
 import posed from "react-native-pose"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { setLocationAndAddressAction } from "../OrderActions"
+import { setLocationAndAddressAction } from "../redux/OrderActions"
 import { Constants, Location, Permissions } from "expo"
 
 // tässä luuri-ympyrä-animaatio
