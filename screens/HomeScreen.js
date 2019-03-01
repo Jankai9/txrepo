@@ -55,10 +55,12 @@ export class HomeScreen extends React.Component {
 		super(props)
 
 		this.state = {
+			startAddress: "",
 			initialRegion: {
 				lat: -33.866651,
 				lng: 151.195827
-			}
+			},
+			region: undefined
 		}
 	}
 
@@ -66,6 +68,11 @@ export class HomeScreen extends React.Component {
 		console.log(_item)
 		this.props.navigation.navigate("Address", {
 			addressHandler: value => {
+				this.setState({
+					...this.state,
+					region: value.geometry.location
+				})
+
 				this.props.setLocationAndAddress({
 					startAddress: value.formatted_address,
 					startLocation: value.geometry.location
@@ -109,14 +116,15 @@ export class HomeScreen extends React.Component {
 		console.log("PROPS FROM REDUX")
 		console.log(this.props.order)
 
-		let region = {}
+		let regionAttributes = {}
 		if (this.props.order.startLocation) {
-			region = {
+			let region = {
 				latitude: this.props.order.startLocation.lat,
 				longitude: this.props.order.startLocation.lng,
 				latitudeDelta: LATITUDE_DELTA,
 				longitudeDelta: LONGITUDE_DELTA
 			}
+			regionAttributes = { region }
 		}
 
 		return (
@@ -129,7 +137,7 @@ export class HomeScreen extends React.Component {
 						latitudeDelta: LATITUDE_DELTA,
 						longitudeDelta: LONGITUDE_DELTA
 					}}
-					{...region}
+					{...regionAttributes}
 				>
 					{this.props.order.startLocation && (
 						<MapView.Marker
