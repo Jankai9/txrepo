@@ -2,9 +2,12 @@ import React from "react"
 import { TouchableHighlight, StyleSheet, Text, View, Image } from "react-native"
 import { Icon } from "react-native-elements"
 import { connect } from "react-redux"
-import { setOptionsAction } from "../redux/OrderActions"
+import {
+	setLocationAndAddressAction,
+	setOptionsAction,
+	setOrderStateAction
+} from "../redux/OrderActions"
 import { bindActionCreators } from "redux"
-import { setLocationAndAddressAction } from "../redux/OrderActions"
 
 export class OrderDetailsScreen extends React.Component {
 	// create constructor to get access to props
@@ -42,8 +45,8 @@ export class OrderDetailsScreen extends React.Component {
 	}
 
 	onConfirmPressed() {
-		this.props.setOptions({
-			picktime: "10:10"
+		this.props.setOrderState({
+			orderState: "WAITING_FOR_AVAILABLE_TAXI"
 		})
 	}
 
@@ -139,14 +142,26 @@ export class OrderDetailsScreen extends React.Component {
 					</View>
 				</View>
 				<Text style={styles.getPrice}>Laske hinta etukäteen</Text>
-				<TouchableHighlight style={styles.confirm}>
+				{this.props.order.orderState == "FILLING_ORDER" && (
+					<TouchableHighlight style={styles.confirm}>
+						<Text
+							style={styles.confirmText}
+							onTouchStart={this.onConfirmPressed.bind(this)}
+						>
+							VAHVISTA TILAUS
+						</Text>
+					</TouchableHighlight>
+				)}
+
+				{this.props.order.orderState ==
+					"WAITING_FOR_AVAILABLE_TAXI" && (
 					<Text
-						style={styles.confirmText}
+						style={styles.waitingForAvailableTaxi}
 						onTouchStart={this.onConfirmPressed.bind(this)}
 					>
-						VAHVISTA TILAUS
+						Etsitään vapaita takseja...
 					</Text>
-				</TouchableHighlight>
+				)}
 			</View>
 		)
 	}
@@ -166,7 +181,8 @@ const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			setOptions: setOptionsAction,
-			setLocationAndAddress: setLocationAndAddressAction
+			setLocationAndAddress: setLocationAndAddressAction,
+			setOrderState: setOrderStateAction
 		},
 		dispatch
 	)
@@ -260,6 +276,13 @@ const styles = StyleSheet.create({
 	},
 	confirmText: {
 		color: "#FFEB3B",
+		textAlign: "center",
+		fontWeight: "bold",
+		fontSize: 15,
+		paddingTop: 4
+	},
+	waitingForAvailableTaxi: {
+		color: "blue",
 		textAlign: "center",
 		fontWeight: "bold",
 		fontSize: 15,

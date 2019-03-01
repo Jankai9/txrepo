@@ -7,7 +7,9 @@ const INITIAL_STATE = {
 	destinationLocation: undefined,
 	vehicleType: "any",
 	picktime: "asap",
-	payType: "vehicle"
+	payType: "vehicle",
+	// PROCESS STATE VARIABLES
+	orderState: "FILLING_ORDER"
 }
 
 const orderReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +25,12 @@ const orderReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				...action.payload
 			}
+		case "SET_ORDER_STATE":
+			return {
+				...state,
+				...action.payload
+			}
+
 		default:
 			return state
 	}

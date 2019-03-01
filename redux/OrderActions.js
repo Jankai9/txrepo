@@ -7,3 +7,8 @@ export const setOptionsAction = payload => ({
 	type: "SET_OPTIONS",
 	payload: payload
 })
+
+export const setOrderStateAction = payload => ({
+	type: "SET_ORDER_STATE",
+	payload: payload
+})
