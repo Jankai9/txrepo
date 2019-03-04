@@ -5,12 +5,26 @@ import { AppNavigator } from "./navigation/AppNavigator"
 import { Provider } from "react-redux"
 import { createStore } from "redux"
 import orderReducer from "./redux/OrderReducer"
+import {
+	openWebSocket,
+	sendSrvCreatePassengerReq
+} from "./server/ServiceDelegate"
 
 const store = createStore(orderReducer)
+openWebSocket()
 
 export default class App extends React.Component {
+	constructor() {
+		super()
+		openWebSocket()
+	}
+
 	state = {
 		isLoadingComplete: false
+	}
+
+	componentWillMount() {
+		sendSrvCreatePassengerReq()
 	}
 
 	render() {
